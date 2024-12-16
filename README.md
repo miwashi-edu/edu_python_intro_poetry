@@ -1,77 +1,90 @@
 # edu_python_intro_poetry
 
-[Poetry](https://python-poetry.org)
-[toml](https://toml.io/en/)  
-[masonry](https://python-poetry.org/docs/pyproject/#poetry-and-pep-517)
-
-## instructions
-
-> Requires yq is installed
+## Create Python Machine
 
 ```bash
-cd ~
-cd ws
-mkdir my_python_project
-cd my_python_project
-poetry init --name my_python_project --dependency requests --no-interaction
-mkdir my_module
-touch ./my_module/__main__.py
-touch ./my_module/__init__.py
-curl -o .gitignore https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
-git init
-git add .
-git commit -m "initial commit"
+docker network create --driver bridge --subnet 192.168.2.0/24 --gateway 192.168.2.1 pentest
+docker run -d -it --network pentest --name python --hostname python python:3.11-slim bash
+docker exec -it python bash
 ```
 
-## Add script if yq isn't installed
+## Configure Machine
 
 ```bash
-cd ~
-cd ws
-cd my_python_project
-echo """
-[tool.poetry.scripts]
-hello = \"my_module:hello_world\"
-""" >> pyproject.toml
-
-git add .
-git commit -m "added script to toml"
+apt-get update
+apt-get install build-essential  -y
+apt-get install libssl-dev  -y
+apt-get install zlib1g-dev  -y
+apt-get install libbz2-dev  -y
+apt-get install libreadline-dev  -y
+apt-get install libsqlite3-dev  -y
+apt-get install curl -y
+apt-get install wget  -y
+apt-get install git -y
+apt-get install libncurses5-dev  -y
+apt-get install libncursesw5-dev  -y
+apt-get install xz-utils  -y
+apt-get install tk-dev  -y
+apt-get install libffi-dev  -y
+apt-get install git  -y
+apt-get install sudo  -y
+apt-get install zsh  -y
+apt-get install procps -y
+apt-get install vim -y
+apt-get install vim-nox -y
+apt-get install cmake -y
+apt-get install python3-dev -y
 ```
 
-
-## main < heredoc
+## Add dev user and configure
 
 ```bash
-cd ~
-cd ws
-cd my_python_project
-cat << EOF > my_module/__main__.py
-def hello_world():
-    print("Hello, world!")
+adduser [userid] # Prepare a password, and answer all questions
+usermod -aG sudo [userid]
+su [userid]
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+curl -sSL https://install.python-poetry.org | python3 -
+export PATH="$HOME/.local/bin:$PATH"
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+```
 
-if __name__ == "__main__":
-    hello_world()
+## Configure VI
+
+```bash
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+echo > ~/.vimrc << 'EOF'
+call plug#begin('~/.vim/plugged')
+
+" Python autocompletion
+Plug 'davidhalter/jedi-vim'
+
+" PEP8 indentation
+Plug 'Vimjas/vim-python-pep8-indent'
+
+call plug#end()
 EOF
-
-git add .
-git commit -m "added module"
+pip install jedi
 ```
 
-## run
+## In VIM run PlugInstall
 
 ```bash
-cd ~
-cd ws
-cd my_python_project
-poetry run python -m my_module
+vim
+:PlugInstall
 ```
 
-
-## install
+## Save image for future use
 
 ```bash
-cd ~
-cd ws
-cd my_python_project
-poetry install
+docker commit python python-dev-image
 ```
+
+
+vim-python-pep8-indent
+: Python PEP8-compliant indentation.
+
+jedi-vim
+: Python autocompletion and navigation using Jedi.
+
+
