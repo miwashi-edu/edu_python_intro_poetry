@@ -43,10 +43,11 @@ adduser [userid] # Prepare a password, and answer all questions
 usermod -aG sudo [userid]
 su [userid]
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-curl -sSL https://install.python-poetry.org | python3 -
 export PATH="$HOME/.local/bin:$PATH"
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+pip install --upgrade pip
+pip install poetry
 ```
 
 ## Configure VI
