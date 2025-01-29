@@ -42,7 +42,7 @@ echo > /etc/ssh/sshd_config << 'EOF'
 PermitRootLogin no
 PasswordAuthentication yes
 PubkeyAuthentication yes
-AllowUsers miwa
+AllowUsers [user]
 EOF
 service ssh restart
 ```
@@ -95,8 +95,8 @@ docker commit python python-dev-image
 docker run -d  -p 2222:22 --network iotnet --ip 192.168.2.10 --name python-client --hostname py1 python-dev-image tail -f /dev/null
 docker run -d  -p 2223:22 --network iotnet --ip 192.168.2.11 --name python-server --hostname py2 python-dev-image tail -f /dev/null
 
-ssh miwa@localhost -p 2222
-ssh miwa@localhost -p 2223
+ssh [user]@localhost -p 2222
+ssh [user]@localhost -p 2223
 ```
 
 
