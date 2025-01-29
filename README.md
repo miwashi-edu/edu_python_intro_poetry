@@ -3,9 +3,9 @@
 ## Create Python Machine
 
 ```bash
-docker network create --driver bridge --subnet 192.168.2.0/24 --gateway 192.168.2.1 pentest
+docker network create --driver bridge --subnet 192.168.2.0/24 --gateway 192.168.2.1 iotnet
 
-docker run -d  -p 2222:22 --network pentest --name python --hostname py1 python tail -f /dev/null
+docker run -d  -p 2222:22 --network iotnet --name python --hostname py1 python tail -f /dev/null
 docker exec -it python /bin/bash
 ```
 
@@ -92,8 +92,8 @@ vim
 
 ```bash
 docker commit python python-dev-image
-docker run -d  -p 2222:22 --network pentest --ip 192.168.2.10 --name python-client --hostname py1 python-dev-image tail -f /dev/null
-docker run -d  -p 2223:22 --network pentest --ip 192.168.2.11 --name python-server --hostname py2 python-dev-image tail -f /dev/null
+docker run -d  -p 2222:22 --network iotnet --ip 192.168.2.10 --name python-client --hostname py1 python-dev-image tail -f /dev/null
+docker run -d  -p 2223:22 --network iotnet --ip 192.168.2.11 --name python-server --hostname py2 python-dev-image tail -f /dev/null
 
 ssh miwa@localhost -p 2222
 ssh miwa@localhost -p 2223
