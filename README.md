@@ -23,16 +23,6 @@ apt-get install zsh  -y
 apt-get install sudo  -y
 ```
 
-## Add [userid] user
-
-```bash
-adduser [userid] # Prepare a password, and answer all questions
-usermod -aG sudo [userid]
-su [userid]
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git config --global init.defaultBranch main
-```
-
 ## Set up SSH
 
 ```bash
